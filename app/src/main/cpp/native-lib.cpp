@@ -10,3 +10,4 @@ Java_com_jni_tzx_MainActivity_stringFromJNI(
     std::string hello = "Hello from C++";
     return env->NewStringUTF(hello.c_str());
 }
+

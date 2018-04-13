@@ -7,5 +7,5 @@ public class JNIUitls {
 
     public static native String getNameString();
 
-    public native int getNumber();
+    public native int getNumber(int num);
 }
