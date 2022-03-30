@@ -45,3 +45,6 @@ target_link_libraries( # Specifies the target library.
                        ${log-lib} )
 #链接目标库
 target_link_libraries(jnilib ${log-lib})
+#优化包体积
+set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -Os -Wall -s")
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Os -Wall -s")

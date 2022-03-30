@@ -20,12 +20,12 @@ public class MainActivity extends Activity {
 
         // Example of a call to a native method
         TextView tv = (TextView) findViewById(R.id.sample_text);
-        tv.setText(JNIUitls.getNameString() + new JNIUitls().getNumber());
+        tv.setText(tanzhenxing() +  new JNIUitls().getNumber(3));
     }
 
     /**
      * A native method that is implemented by the 'native-lib' native library,
      * which is packaged with this application.
      */
-    public native String stringFromJNI();
+    public native String tanzhenxing();
 }
