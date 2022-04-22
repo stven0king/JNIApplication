@@ -9,4 +9,5 @@ public class JNIUitls {
 //    public static native String getNameString();
 
     public native int getNumber(int num);
+    public static native String test();
 }

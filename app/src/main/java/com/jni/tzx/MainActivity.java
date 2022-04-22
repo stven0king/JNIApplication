@@ -1,7 +1,11 @@
 package com.jni.tzx;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.jni.tzx.utils.JNIUitls;
@@ -21,6 +25,7 @@ public class MainActivity extends Activity {
         // Example of a call to a native method
         TextView tv = (TextView) findViewById(R.id.sample_text);
         tv.setText(tanzhenxing() +  new JNIUitls().getNumber(3));
+        tv.setText(test() + "\n" + new JNIUitls().test());
     }
 
     /**
@@ -28,4 +33,19 @@ public class MainActivity extends Activity {
      * which is packaged with this application.
      */
     public native String tanzhenxing();
+    public native String test();
+
+    @Override
+    public Intent registerReceiver(BroadcastReceiver receiver, IntentFilter filter) {
+        Log.d("tanzhenxing", "111");
+        return super.registerReceiver(receiver, filter);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        boolean tanzhenxing = Log.isLoggable("tanzhenxing", 1);
+        Log.d("tanzhenxing", "111:" + tanzhenxing);
+
+    }
 }

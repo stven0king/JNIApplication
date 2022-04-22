@@ -1,6 +1,4 @@
 # JNIApplication
-ndk
-
 [Android之NDK开发初体验](http://dandanlove.com/2017/03/24/android-ndk-init/)
 
 - JNIUitls.java
@@ -51,3 +49,8 @@ Java_com_jni_tzx_utils_JNIUitls_getNumber(
 
 }
 ```
+
+其他：
+
+1. 尝试动态注册方法，替换jni规则生成的方法；
+2. 尝试动态注册，替换Android系统的native方法；

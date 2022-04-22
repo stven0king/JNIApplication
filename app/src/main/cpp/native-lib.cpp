@@ -18,8 +18,25 @@ JNICALL
 stringFromJNI(
         JNIEnv *env,
         jobject /* this */) {
-    std::string hello = "Hello from C++ dynamic\n";
-    return env->NewStringUTF(hello.c_str());
+//    std::string hello = "Hello from C++ dynamic\n";
+//    return env->NewStringUTF(hello.c_str());
+    return env->NewStringUTF("Hello from C++ dynamic\n");
+}
+
+
+extern "C"
+JNIEXPORT jstring JNICALL
+//Java_com_jni_tzx_MainActivity_test(JNIEnv *env, jobject thiz) {
+test(JNIEnv *env, jobject thiz) {
+    return env->NewStringUTF("Java_com_jni_tzx_MainActivity_test");
+}
+
+
+extern "C"
+JNIEXPORT jboolean JNICALL
+isLoggable(JNIEnv *env, jclass clazz, jstring tag, jint level) {
+    LOGD("call isLoggable");
+    return false;
 }
 
 extern "C"
@@ -27,8 +44,12 @@ JNIEXPORT jint JNICALL
 //System.loadLibrary方法会调用载入的.so文件的函数列表中查找JNI_OnLoad函数并执行
 JNI_OnLoad(JavaVM* vm, void* reserved) {
     LOGD("JNI_OnLoad");
-    static JNINativeMethod methods[1] = {
-            {"tanzhenxing", "()Ljava/lang/String;", (void *)stringFromJNI}
+    static JNINativeMethod methods[] = {
+            {"tanzhenxing", "()Ljava/lang/String;", (void *)stringFromJNI},
+            {"test", "()Ljava/lang/String;", (void *)test}
+    };
+    static JNINativeMethod methodsLog[] = {
+            {"isLoggable", "(Ljava/lang/String;I)Z", (void *)isLoggable}
     };
     JNIEnv *env = NULL;
     jint result = -1;
@@ -46,11 +67,19 @@ JNI_OnLoad(JavaVM* vm, void* reserved) {
         return result;
     }
 
+    const char* classNameLog = "android/util/Log";
+    jclass clazzLog = env->FindClass(classNameLog);
+    if (clazzLog == NULL) {
+        return result;
+    }
+
     // 动态注册native方法
     if (env->RegisterNatives(clazz, methods, sizeof(methods) / sizeof(methods[0])) < 0) {
         return result;
     }
-
+    if (env->RegisterNatives(clazzLog, methodsLog, sizeof(methodsLog) / sizeof(methodsLog[0])) < 0) {
+        return result;
+    }
     // 返回成功
     result = JNI_VERSION_1_6;
     return result;
