@@ -25,7 +25,14 @@ public class MainActivity extends Activity {
         // Example of a call to a native method
         TextView tv = (TextView) findViewById(R.id.sample_text);
         tv.setText(tanzhenxing() +  new JNIUitls().getNumber(3));
+        tv = (TextView) findViewById(R.id.sample_text1);
         tv.setText(test() + "\n" + new JNIUitls().test());
+        tv = (TextView) findViewById(R.id.sample_text2);
+        int[] ints = new int[2];
+        ints[0] = 1;
+        ints[1] = 3;
+        double[] doubles = sumAndAverage(ints);
+        tv.setText(String.format("sum=%s, average=%s", doubles[0], doubles[1]));
     }
 
     /**
@@ -34,6 +41,7 @@ public class MainActivity extends Activity {
      */
     public native String tanzhenxing();
     public native String test();
+    public native double[] sumAndAverage(int[] numbers);
 
     @Override
     public Intent registerReceiver(BroadcastReceiver receiver, IntentFilter filter) {

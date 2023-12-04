@@ -84,3 +84,28 @@ JNI_OnLoad(JavaVM* vm, void* reserved) {
     result = JNI_VERSION_1_6;
     return result;
 }
+
+extern "C"
+JNIEXPORT jdoubleArray JNICALL
+Java_com_jni_tzx_MainActivity_sumAndAverage(JNIEnv *env, jobject thiz, jintArray numbers) {
+    jboolean isCopy;
+    jint * inArray = env->GetIntArrayElements(numbers, &isCopy);
+    if (JNI_TRUE == isCopy) {
+        LOGD("C 层的数组是 java 层数组的一份拷贝");
+    } else {
+        LOGD("C 层的数组指向 java 层的数组");
+    }
+    if (nullptr == inArray) return nullptr;
+    jsize length = env->GetArrayLength(numbers);
+    jint sum = 0;
+    for (int i = 0; i < length; ++i) {
+        sum += inArray[i];
+    }
+    jdouble average = (jdouble)sum / length;
+    env->ReleaseIntArrayElements(numbers, inArray, 0);
+    jdouble outArray[] = {(jdouble)sum, average};
+    jdoubleArray  outJNIArray = env->NewDoubleArray(2);
+    if (NULL == outJNIArray) return NULL;
+    env->SetDoubleArrayRegion(outJNIArray, 0, 2, outArray);
+    return outJNIArray;
+}
