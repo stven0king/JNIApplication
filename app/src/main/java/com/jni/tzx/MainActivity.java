@@ -55,12 +55,6 @@ public class MainActivity extends Activity {
     public native String[] operateStringArray(String[] array);
 
     @Override
-    public Intent registerReceiver(BroadcastReceiver receiver, IntentFilter filter) {
-        Log.d("tanzhenxing", "111");
-        return super.registerReceiver(receiver, filter);
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
         boolean tanzhenxing = Log.isLoggable("tanzhenxing", 1);
