@@ -33,6 +33,16 @@ public class MainActivity extends Activity {
         ints[1] = 3;
         double[] doubles = sumAndAverage(ints);
         tv.setText(String.format("sum=%s, average=%s", doubles[0], doubles[1]));
+        String[] strs = new String[2];
+        strs[0] = "git ";
+        strs[1] = " hub";
+        String[] strings = operateStringArray(strs);
+        StringBuffer stringBuffer = new StringBuffer();
+        for (String s : strings) {
+            stringBuffer.append(s);
+        }
+        tv = (TextView) findViewById(R.id.sample_text3);
+        tv.setText(stringBuffer);
     }
 
     /**
@@ -42,6 +52,7 @@ public class MainActivity extends Activity {
     public native String tanzhenxing();
     public native String test();
     public native double[] sumAndAverage(int[] numbers);
+    public native String[] operateStringArray(String[] array);
 
     @Override
     public Intent registerReceiver(BroadcastReceiver receiver, IntentFilter filter) {

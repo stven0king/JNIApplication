@@ -109,3 +109,25 @@ Java_com_jni_tzx_MainActivity_sumAndAverage(JNIEnv *env, jobject thiz, jintArray
     env->SetDoubleArrayRegion(outJNIArray, 0, 2, outArray);
     return outJNIArray;
 }
+extern "C"
+JNIEXPORT jobjectArray JNICALL
+Java_com_jni_tzx_MainActivity_operateStringArray(JNIEnv *env, jobject thiz, jobjectArray array) {
+    jsize  size = env->GetArrayLength(array);
+    for (int i = 0; i < size; ++i) {
+        jstring string_in = (jstring)env->GetObjectArrayElement(array, i);
+        const char* char_in = env->GetStringUTFChars(string_in, nullptr);
+        LOGD("%s", char_in);
+    }
+
+    jclass clazz = env->FindClass("java/lang/String");
+    jobjectArray  objectArray_out;
+    int len_out = 5;
+    objectArray_out = env->NewObjectArray(len_out, clazz, NULL);
+    char* char_out[] = {"hello,", "world~!", " JNI", " is", " fun"};
+    jstring temp_string;
+    for (int i = 0; i < len_out; ++i) {
+        temp_string = env->NewStringUTF(char_out[i]);
+        env->SetObjectArrayElement(objectArray_out, i, temp_string);
+    }
+    return objectArray_out;
+}
