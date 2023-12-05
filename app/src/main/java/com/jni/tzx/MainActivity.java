@@ -64,7 +64,7 @@ public class MainActivity extends Activity {
     protected void onResume() {
         super.onResume();
         boolean tanzhenxing = Log.isLoggable("tanzhenxing", 1);
-        Log.d("tanzhenxing", "111:" + tanzhenxing);
+        Log.d("tanzhenxing33", "MainActivity:onResume:" + tanzhenxing);
 
     }
 }

@@ -35,8 +35,13 @@ test(JNIEnv *env, jobject thiz) {
 extern "C"
 JNIEXPORT jboolean JNICALL
 isLoggable(JNIEnv *env, jclass clazz, jstring tag, jint level) {
-    LOGD("call isLoggable");
-    return false;
+    const char* char_in = env->GetStringUTFChars(tag, nullptr);
+    LOGD("call isLoggable %s %d", char_in, level);
+    if (level % 2 == 0) {
+        return false;
+    } else {
+        return true;
+    }
 }
 
 extern "C"
