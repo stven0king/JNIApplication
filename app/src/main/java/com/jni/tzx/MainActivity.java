@@ -8,12 +8,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
+//import com.example.nativelib.NativeLib;
 import com.jni.tzx.utils.JNIUitls;
 
 public class MainActivity extends Activity {
 
     // Used to load the 'native-lib' library on application startup.
     static {
+        System.loadLibrary("native-so");
         System.loadLibrary("native-lib");
     }
 
@@ -43,6 +45,32 @@ public class MainActivity extends Activity {
         }
         tv = (TextView) findViewById(R.id.sample_text3);
         tv.setText(stringBuffer);
+        tv = (TextView) findViewById(R.id.sample_text4);
+        stringBuffer = new StringBuffer();
+        TestJavaClass testJavaClass = new TestJavaClass();
+        stringBuffer.append(TestJavaClass.getContent(testJavaClass)).append("\n");
+        accessJavaFiled(testJavaClass);
+        accessStaticField(testJavaClass);
+        stringBuffer.append(TestJavaClass.getContent(testJavaClass));
+        tv.setText(stringBuffer);
+        accessJavaMethod();
+        accessStaticMethod();
+        //调用
+        try {
+            exceptionTest();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            exceptionTestMethod();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        cacheTest();
+        cacheTest();
+        initIDs();
+        initIDs();
+        //threadTest();
     }
 
     /**
@@ -54,11 +82,38 @@ public class MainActivity extends Activity {
     public native double[] sumAndAverage(int[] numbers);
     public native String[] operateStringArray(String[] array);
 
+    //定义两个 native 方法
+    public native void accessJavaFiled(TestJavaClass testJavaClass);
+    public native void accessStaticField(TestJavaClass testJavaClass);
+
+    //本地方法
+    public native void accessJavaMethod();
+    public native void accessStaticMethod();
+
+    public native void exceptionTest();
+
+    //native 方法，在 native 中，会调用到 exceptionMethod() 方法
+    public native void exceptionTestMethod();
+    public native void cacheTest();
+    public static native void initIDs();
+
+    public void javaCallback(int count) {
+        Log.e("tanzhenxing33", "onNativeCallBack : " + count);
+    }
+
+    public native void threadTest();
+
     @Override
     protected void onResume() {
         super.onResume();
-        boolean tanzhenxing = Log.isLoggable("tanzhenxing", 1);
+        boolean tanzhenxing = Log.isLoggable("tanzhenxing", Log.DEBUG);
         Log.d("tanzhenxing33", "MainActivity:onResume:" + tanzhenxing);
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        //Log.d("tanzhenxing33", "MainActivity:onStart:" + new NativeLib().stringFromJNI());
     }
 }
